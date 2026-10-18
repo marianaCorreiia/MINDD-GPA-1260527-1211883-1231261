@@ -1,0 +1,65 @@
+{
+  "target": "is_abnormal",
+  "eligible_predictors": [
+    "charging_post_id",
+    "location_information",
+    "district_name",
+    "start_time",
+    "temperature",
+    "relative_humidity",
+    "precipitation_mm",
+    "electricity_price",
+    "tariff_period",
+    "post_previous_sessions_1d",
+    "post_previous_abnormal_1d",
+    "post_previous_abnormal_rate_1d",
+    "post_previous_sessions_7d",
+    "post_previous_abnormal_7d",
+    "post_previous_abnormal_rate_7d",
+    "post_previous_sessions_30d",
+    "post_previous_abnormal_30d",
+    "post_previous_abnormal_rate_30d",
+    "post_hours_since_previous_completed_session",
+    "post_no_previous_completed_session",
+    "post_hours_since_previous_completed_abnormal",
+    "post_no_previous_completed_abnormal",
+    "is_new_user",
+    "user_previous_sessions_30d",
+    "user_previous_abnormal_30d",
+    "user_previous_abnormal_rate_30d",
+    "user_previous_sessions_180d",
+    "user_previous_abnormal_180d",
+    "user_previous_abnormal_rate_180d",
+    "user_previous_sessions_730d",
+    "user_previous_abnormal_730d",
+    "user_previous_abnormal_rate_730d",
+    "user_days_since_previous_completed_session",
+    "user_no_previous_completed_session",
+    "user_days_since_previous_completed_abnormal",
+    "user_no_previous_completed_abnormal",
+    "user_active_sessions_at_start"
+  ],
+  "excluded_by_decision": {
+    "Excluir — construção do alvo": [
+      "end_cause"
+    ],
+    "Excluir — disponibilidade não garantida": [
+      "order_creation_time"
+    ],
+    "Excluir — fuga de informação": [
+      "transaction_power_kwh",
+      "electricity_cost_yuan",
+      "service_charge_yuan",
+      "transaction_amount_yuan",
+      "actual_payment_yuan",
+      "end_time",
+      "payment_time"
+    ],
+    "Excluir — risco de memorização": [
+      "userid"
+    ],
+    "Excluir — variável-alvo": [
+      "is_abnormal"
+    ]
+  }
+}
