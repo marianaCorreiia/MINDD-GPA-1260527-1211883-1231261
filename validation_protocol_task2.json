@@ -1,0 +1,67 @@
+{
+  "target": "is_abnormal",
+  "test_start": "2021-08-01",
+  "fold_scheme": "expanding-window com purga por end_time",
+  "n_folds": 4,
+  "fold_months": 3,
+  "folds": [
+    {
+      "fold": 1,
+      "treino_inicio": "2019-12-31",
+      "treino_fim": "2020-08-01",
+      "validacao_fim": "2020-11-01",
+      "n_treino": 79695,
+      "n_validacao": 66045,
+      "purgadas": 36,
+      "prevalencia_treino": 0.19656189221406611,
+      "prevalencia_validacao": 0.18681202210613976
+    },
+    {
+      "fold": 2,
+      "treino_inicio": "2019-12-31",
+      "treino_fim": "2020-11-01",
+      "validacao_fim": "2021-02-01",
+      "n_treino": 145748,
+      "n_validacao": 57027,
+      "purgadas": 28,
+      "prevalencia_treino": 0.19213299667919972,
+      "prevalencia_validacao": 0.16792045873007522
+    },
+    {
+      "fold": 3,
+      "treino_inicio": "2019-12-31",
+      "treino_fim": "2021-02-01",
+      "validacao_fim": "2021-05-01",
+      "n_treino": 202793,
+      "n_validacao": 42189,
+      "purgadas": 10,
+      "prevalencia_treino": 0.18530718515925107,
+      "prevalencia_validacao": 0.15319159022494014
+    },
+    {
+      "fold": 4,
+      "treino_inicio": "2019-12-31",
+      "treino_fim": "2021-05-01",
+      "validacao_fim": "2021-08-01",
+      "n_treino": 244950,
+      "n_validacao": 64938,
+      "purgadas": 42,
+      "prevalencia_treino": 0.1797836293121045,
+      "prevalencia_validacao": 0.1943392158674428
+    }
+  ],
+  "primary_metric": "pr_auc",
+  "threshold_provisional": 0.2,
+  "aggregation": [
+    "media",
+    "desvio_padrao",
+    "media_ponderada",
+    "pior_fold",
+    "tendencia_por_fold"
+  ],
+  "baselines": [
+    "prevalencia (PR-AUC)",
+    "post_previous_abnormal_rate_30d"
+  ],
+  "n_eligible_predictors": 37
+}
