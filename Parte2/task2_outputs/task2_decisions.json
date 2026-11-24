@@ -1,0 +1,8 @@
+{
+  "window": "regular",
+  "window_start_rule": "2020-04-01",
+  "transform": "log1p",
+  "back_transform": "mediana: expm1 da previsão em log1p, sem correção de enviesamento",
+  "parameters": "estimados uma vez por fold e nível; estado atualizado diariamente com os dados até T0, sem reestimar",
+  "negative_forecasts": "cortadas a 0"
+}

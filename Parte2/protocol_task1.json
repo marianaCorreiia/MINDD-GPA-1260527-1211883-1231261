@@ -1,0 +1,255 @@
+{
+  "series": {
+    "definition": "sessões com Start Time em [t, t+1h); índice = início da hora; Network = soma dos 3 distritos",
+    "start": "2020-01-01 00:00:00",
+    "end": "2021-12-31 23:00:00",
+    "freq": "h",
+    "n_hours": 17544,
+    "timezone": "hora local da China (UTC+8, sem hora de verão)",
+    "levels": [
+      "Network",
+      "Nanhu",
+      "Tongxiang",
+      "Xiuzhou"
+    ],
+    "missing_hours_policy": "horas sem sessões tratadas como procura zero (grelha completa preenchida com 0); pressuposto: não se exclui falha de recolha",
+    "excluded_sessions_before_start": 17
+  },
+  "issuance": {
+    "schedule": "diária às 00:00 (hora local)",
+    "horizons": {
+      "first": 1,
+      "last": 24,
+      "h1": "00:00-01:00 do dia D",
+      "h24": "23:00-24:00 do dia D"
+    },
+    "target": "sessões iniciadas em [T0+(h-1) h, T0+h h), h=1..24: as 24 horas do dia D",
+    "history_available": "até à hora iniciada em T0-1h"
+  },
+  "strategy": {
+    "statistical": "iterada: previsão multi-passo a partir de T0, sem observações do dia D; parâmetros estimados uma vez por fold; estado atualizado diariamente com as observações até T0-1h, sem reestimar",
+    "machine_learning": "direta (um modelo por horizonte ou h como atributo)",
+    "levels": "previsão independente por nível; verificar coerência soma distritos vs. rede"
+  },
+  "splits": {
+    "development": [
+      "2020-01-01",
+      "2021-09-30"
+    ],
+    "folds": [
+      {
+        "name": "F1",
+        "train": [
+          "2020-01-01",
+          "2020-09-30"
+        ],
+        "validation": [
+          "2020-10-01",
+          "2020-12-31"
+        ],
+        "scheme": "janela expansiva"
+      },
+      {
+        "name": "F2",
+        "train": [
+          "2020-01-01",
+          "2020-12-31"
+        ],
+        "validation": [
+          "2021-01-01",
+          "2021-03-31"
+        ],
+        "scheme": "janela expansiva"
+      },
+      {
+        "name": "F3",
+        "train": [
+          "2020-01-01",
+          "2021-03-31"
+        ],
+        "validation": [
+          "2021-04-01",
+          "2021-06-30"
+        ],
+        "scheme": "janela expansiva"
+      },
+      {
+        "name": "F4",
+        "train": [
+          "2020-01-01",
+          "2021-06-30"
+        ],
+        "validation": [
+          "2021-07-01",
+          "2021-09-30"
+        ],
+        "scheme": "janela expansiva"
+      }
+    ],
+    "test": [
+      "2021-10-01",
+      "2021-12-31"
+    ]
+  },
+  "metrics": {
+    "primary": [
+      "MAE",
+      "RMSE",
+      "MASE"
+    ],
+    "mase_seasonal_period": 24,
+    "mase_scale": "MAE in-sample do seasonal naive (m=24) na janela de treino de cada fold e nível, a partir de mase_scale_from",
+    "mase_scale_from": "2020-04-01",
+    "complementary": [
+      "acerto da hora de pico (+-1h)",
+      "erro absoluto do pico diário",
+      "tempo por origem"
+    ]
+  },
+  "baselines": [
+    "Naive",
+    "SNaive-24",
+    "SNaive-168",
+    "MediaHora-7d",
+    "MediaHora-4sem"
+  ],
+  "reference_baseline": {
+    "Nanhu": "MediaHora-7d",
+    "Network": "MediaHora-7d",
+    "Tongxiang": "MediaHora-7d",
+    "Xiuzhou": "MediaHora-7d"
+  },
+  "selection_rule": "melhor MASE médio, melhor em >= 3 de 4 folds e IC 95% (bootstrap de blocos de 7 dias) da diferença pareada de MASE diário face à referência exclui zero, por nível; teste avaliado uma única vez",
+  "predictors_policy": {
+    "historical": "lags L usáveis no horizonte h só se L >= h",
+    "known_future": [
+      "hora do dia",
+      "dia da semana",
+      "feriado oficial",
+      "dia útil de compensação",
+      "véspera/dia seguinte a feriado"
+    ],
+    "weather": "valor diário por distrito; known_at = D+1 00:00 (hipótese operacional: resumo de D-1 disponível em T0); só desfasado >= 1 dia, com sensibilidade de atraso 2 dias; meteorologia do dia D apenas como oráculo diagnóstico",
+    "excluded": [
+      "variáveis da transação (energia, custo, duração, fim)",
+      "end_cause e is_*",
+      "UserID"
+    ]
+  },
+  "capacity_breaks": {
+    "Nanhu": [
+      "2021-09-28",
+      "2021-12-13"
+    ]
+  },
+  "test_sensitivity_exclusion_days": [
+    "2021-10-01",
+    "2021-10-02",
+    "2021-10-03",
+    "2021-10-04",
+    "2021-10-05",
+    "2021-10-06",
+    "2021-10-07",
+    "2021-10-08",
+    "2021-10-09",
+    "2021-10-10",
+    "2021-10-11",
+    "2021-10-12",
+    "2021-12-14",
+    "2021-12-15",
+    "2021-12-16",
+    "2021-12-17",
+    "2021-12-18",
+    "2021-12-19",
+    "2021-12-20",
+    "2021-12-21",
+    "2021-12-22",
+    "2021-12-23",
+    "2021-12-24",
+    "2021-12-25",
+    "2021-12-26",
+    "2021-12-27"
+  ],
+  "holidays": [
+    {
+      "from": "2020-01-01",
+      "to": "2020-01-01",
+      "name": "Ano Novo"
+    },
+    {
+      "from": "2020-01-24",
+      "to": "2020-02-02",
+      "name": "Festival da Primavera (prolongado)"
+    },
+    {
+      "from": "2020-04-04",
+      "to": "2020-04-06",
+      "name": "Qingming"
+    },
+    {
+      "from": "2020-05-01",
+      "to": "2020-05-05",
+      "name": "Dia do Trabalhador"
+    },
+    {
+      "from": "2020-06-25",
+      "to": "2020-06-27",
+      "name": "Dragon Boat"
+    },
+    {
+      "from": "2020-10-01",
+      "to": "2020-10-08",
+      "name": "Dia Nacional + Meio-Outono"
+    },
+    {
+      "from": "2021-01-01",
+      "to": "2021-01-03",
+      "name": "Ano Novo"
+    },
+    {
+      "from": "2021-02-11",
+      "to": "2021-02-17",
+      "name": "Festival da Primavera"
+    },
+    {
+      "from": "2021-04-03",
+      "to": "2021-04-05",
+      "name": "Qingming"
+    },
+    {
+      "from": "2021-05-01",
+      "to": "2021-05-05",
+      "name": "Dia do Trabalhador"
+    },
+    {
+      "from": "2021-06-12",
+      "to": "2021-06-14",
+      "name": "Dragon Boat"
+    },
+    {
+      "from": "2021-09-19",
+      "to": "2021-09-21",
+      "name": "Meio-Outono"
+    },
+    {
+      "from": "2021-10-01",
+      "to": "2021-10-07",
+      "name": "Dia Nacional"
+    }
+  ],
+  "makeup_workdays": [
+    "2020-01-19",
+    "2020-04-26",
+    "2020-05-09",
+    "2020-06-28",
+    "2020-09-27",
+    "2020-10-10",
+    "2021-02-07",
+    "2021-02-20",
+    "2021-04-25",
+    "2021-05-08",
+    "2021-09-18",
+    "2021-09-26",
+    "2021-10-09"
+  ]
+}
