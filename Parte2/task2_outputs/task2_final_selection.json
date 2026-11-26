@@ -1,0 +1,109 @@
+{
+  "selection_scope": "melhor modelo estatístico por nível pela regra do protocolo (só validação; teste não usado)",
+  "per_level": {
+    "Network": "SARIMA (D=24)",
+    "Nanhu": "ETS(A,N,A)",
+    "Tongxiang": "SARIMA (D=24)",
+    "Xiuzhou": "SARIMAX cal"
+  },
+  "decisions": {
+    "window": "regular",
+    "window_start_rule": "2020-04-01",
+    "transform": "log1p",
+    "back_transform": "mediana: expm1 da previsão em log1p, sem correção de enviesamento",
+    "parameters": "estimados uma vez por fold e nível; estado atualizado diariamente com os dados até T0, sem reestimar",
+    "negative_forecasts": "cortadas a 0"
+  },
+  "sarima_orders": {
+    "Network": {
+      "order": [
+        1,
+        0,
+        1
+      ],
+      "seasonal_ARMA(P,Q)_24": [
+        1,
+        1
+      ]
+    },
+    "Nanhu": {
+      "order": [
+        1,
+        0,
+        2
+      ],
+      "seasonal_ARMA(P,Q)_24": [
+        0,
+        1
+      ]
+    },
+    "Tongxiang": {
+      "order": [
+        1,
+        0,
+        1
+      ],
+      "seasonal_ARMA(P,Q)_24": [
+        1,
+        1
+      ]
+    },
+    "Xiuzhou": {
+      "order": [
+        1,
+        0,
+        3
+      ],
+      "seasonal_ARMA(P,Q)_24": [
+        0,
+        1
+      ]
+    }
+  },
+  "mstl_arima_orders": {
+    "d=0": {
+      "Network": [
+        3,
+        0,
+        2
+      ],
+      "Nanhu": [
+        3,
+        0,
+        2
+      ],
+      "Tongxiang": [
+        3,
+        0,
+        2
+      ],
+      "Xiuzhou": [
+        3,
+        0,
+        2
+      ]
+    },
+    "d=1": {
+      "Network": [
+        2,
+        1,
+        2
+      ],
+      "Nanhu": [
+        1,
+        1,
+        2
+      ],
+      "Tongxiang": [
+        1,
+        1,
+        2
+      ],
+      "Xiuzhou": [
+        3,
+        1,
+        2
+      ]
+    }
+  }
+}
